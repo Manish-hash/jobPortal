@@ -34,6 +34,11 @@ Route::prefix('account')->group(function () {
     // Authenticated Routes
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
+        Route::put('update-profile', [AccountController::class, 'updateUserProfile'])->name('account.update-profile');
         Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
+        Route::post('update-profile-pic', [AccountController::class, 'updateProfilePic'])->name('account.update-profilePic');
+        Route::get('create-job', [AccountController::class, 'createJob'])->name('account.createJob');
+        Route::post('save-job', [AccountController::class, 'saveJob'])->name('account.saveJob');
+        Route::get('my-jobs', [AccountController::class, 'myJobs'])->name('account.myJobs');
     });
 });
