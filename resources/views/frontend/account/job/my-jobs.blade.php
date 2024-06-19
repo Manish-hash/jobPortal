@@ -21,7 +21,17 @@
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4">
-                   
+                    @if(Session::has('success'))
+            <div class="alert alert-success">
+                <p>{{ Session::get('success') }}</p>
+            </div>
+        @endif
+
+        @if(Session::has('error'))
+        <div class="alert alert-danger">
+            <p>{{ Session::get('error') }}</p>
+        </div>
+        @endif
                 </div>
                 <div class="col-lg-9">
                     <div class="card border-0 shadow mb-4 p-3">
@@ -66,13 +76,13 @@
                                             </td>
                                             <td>
                                                 <div class="action-dots float-end">
-                                                    <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <a href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-menu-end">
                                                         <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route('account.editJob', $job ->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -96,60 +106,20 @@
 @endsection
 
 @section('customJs')
-{{-- <script type="text/javascript">
-$('#userProfileUpdate').submit(function(e){
-    e.preventDefault();
-
-    $.ajax({
-        url: '{{ route("account.update-profile") }}',
-        type: 'PUT',
-        dataType: 'json',
-        data: $("#userProfileUpdate").serializeArray(),
-        success: function(response){
-            if(response.status == true){
-                $("#name").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('')
-
-                 $("#email").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('')
-
-                window.location.href="{{ route('account.profile') }}";
-            } else {
-                var errors = response.errors;
-
-                if(errors.name){
-                    $("#name").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.name)
-                } else {
-                    $("#name").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('')
-                }
-
-                if(errors.email){
-                    $("#email").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.email)
-                } else {
-                    $("#email").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('')
-                }
-
-               
+<script type="text/javascript">
+function deleteJob(jobId) {
+    if(confirm("Are You sure you want to delete this job ?")){
+        $.ajax({
+            url: '{{ route('account.deleteJob') }}',
+            type: 'POST',
+            data: {jobId: jobId},
+            dataType: 'json',
+            success: function(response){
+                window.location.href='{{ route("account.myJobs") }}';
             }
-        }
-    });
-});
-</script> --}}
+        });
+    }
+}
+</script>
 @endsection
 
