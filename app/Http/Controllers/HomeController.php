@@ -10,6 +10,7 @@ class HomeController extends Controller
 {
     //This method shows the home page
     public function index(){
+       
         $categories = Category::where('status',1)->orderBy('name','ASC')->take(8)->get();
         $featuredjobs = Job::where('status',1)
                             ->orderBy('created_at', 'DESC')
@@ -20,6 +21,7 @@ class HomeController extends Controller
                             ->orderBy('created_at', 'DESC')
                             ->with('jobType')
                             ->take(6)->get();
+                            
         return view('frontend.home',compact('categories','featuredjobs','latestjobs'));
     }
 }

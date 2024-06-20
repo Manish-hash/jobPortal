@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\JobController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +21,9 @@ Route::get('/', function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-
-
+Route::get('/jobs',[JobController::class,'index'])->name('jobs.index');
+Route::get('/jobs/detail/{id}',[JobController::class,'detail'])->name('jobDetail');
+Route::post('/apply-job',[JobController::class,'applyJob'])->name('applyJob');
 
 Route::prefix('account')->group(function () {
     // Guest Routes

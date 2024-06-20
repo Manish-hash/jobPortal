@@ -28,7 +28,7 @@
 						<a class="nav-link" aria-current="page" href="{{ route('home.index') }}">Home</a>
 					</li>	
 					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
+						<a class="nav-link" aria-current="page" href="{{ route('jobs.index')  }}">Find Jobs</a>
 					</li>										
 				</ul>	
 				
