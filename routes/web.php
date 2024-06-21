@@ -24,6 +24,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/jobs',[JobController::class,'index'])->name('jobs.index');
 Route::get('/jobs/detail/{id}',[JobController::class,'detail'])->name('jobDetail');
 Route::post('/apply-job',[JobController::class,'applyJob'])->name('applyJob');
+Route::post('/save-job',[JobController::class,'saveJob'])->name('saveJob');
 
 Route::prefix('account')->group(function () {
     // Guest Routes
@@ -38,6 +39,7 @@ Route::prefix('account')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
         Route::put('update-profile', [AccountController::class, 'updateUserProfile'])->name('account.update-profile');
+        Route::post('update-password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
         Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
         Route::post('update-profile-pic', [AccountController::class, 'updateProfilePic'])->name('account.update-profilePic');
         Route::get('create-job', [AccountController::class, 'createJob'])->name('account.createJob');
@@ -49,5 +51,8 @@ Route::prefix('account')->group(function () {
 
         Route::get('my-job-applications', [AccountController::class, 'myJobApplications'])->name('account.myJobApplications');
         Route::post('remove-job-application', [AccountController::class, 'removeAppliedJobs'])->name('account.removeAppliedJobs');
+
+        Route::get('saved-jobs',[AccountController::class,'savedJobs'])->name('account.savedJobs');
+        Route::post('remove-saved-application', [AccountController::class, 'removeSavedJobs'])->name('account.removeSavedJobs');
     });
 });

@@ -48,8 +48,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    <a class="heart_mark" href="#"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                <div class="apply_now  {{ ($count == 1) ? 'saved-job': '' }}">
+                                    <a class="heart_mark" href="javascript:void(0);" onclick="saveJob({{ $job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,12 @@
                         </div>
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
-                            <a href="#" class="btn btn-secondary">Save</a>
+                            @if(Auth::check())
+                            <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Save</a>
+                            @else
+                            <a href="javascript:void(0);" class="btn btn-primary disabled">Login to Save Job</a>
+                            @endif
+                            
 
                             @if(Auth::check())
                             <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Apply</a>
@@ -83,6 +88,46 @@
                         </div>
                     </div>
                 </div>
+
+                @if(Auth::user())
+                    @if(Auth::user()->id == $job->user_id)
+                <div class="card shadow border-0 mt-4">
+                    <div class="job_details_header">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                        <h4>Applicants</h4>
+                                </div>
+                            </div>
+                            <div class="jobs_right"></div>
+                        </div>
+                    </div>
+                    <div class="descript_wrap white-bg">
+                       <table class="table table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Applied Date</th>
+                        </tr>
+                        @if($applications->isNotEmpty())
+                         @foreach($applications as $application)
+                        <tr>
+                            <td>{{ $application->user->name }}</td>
+                            <td>{{ $application->user->email }}</td>
+                            <td>{{ $application->user->phone }}</td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                       </table>
+        
+                    </div>
+                </div>
+                    @endif
+                @endif
             </div>
             <div class="col-md-4">
                 <div class="card shadow border-0">
@@ -128,6 +173,26 @@
         if(confirm('Are you sure want to apply for this job?')){
             $.ajax({
                 url: '{{ route("applyJob") }}',
+                type: 'post',
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}' // Add CSRF token here
+                },
+                dataType: 'json',
+                success: function(response){
+                    window.location.href = "{{ url()->current() }}"; // Call the function
+                },
+                error: function(response){
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
+    }
+
+    function saveJob(id){
+        if(confirm('Are you sure want to save this job?')){
+            $.ajax({
+                url: '{{ route("saveJob") }}',
                 type: 'post',
                 data: {
                     id: id,

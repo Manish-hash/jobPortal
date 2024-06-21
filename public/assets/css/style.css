@@ -10020,3 +10020,10 @@ footer .nav-link {
   content: '';
 }
 /* '' */
+
+/* custom css */
+
+.saved-job a{
+  background: #00D363 !important;
+  color: #fff !important;
+}

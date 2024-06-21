@@ -8,6 +8,7 @@ use App\Models\JobType;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
+use App\Models\SavedJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -114,6 +115,43 @@ public function authenticate(Request $request){
        $user= User::find($id);
 
        return view('frontend.account.profile',compact('user'));
+}
+
+
+public function updatePassword(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'old_password' => 'required',
+        'new_password' => 'required|min:6',
+        'confirm_password' => 'required|same:new_password',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'errors' => $validator->errors(),
+        ]);
+    }
+
+    
+
+    if (Hash::check($request->old_password, Auth::user()->password) == false) {
+        session()->flash('error','Your Old Password is Incorrect');
+        return response()->json([
+            'status' => false,
+            'errors' => ['old_password' => 'The old password is incorrect.'],
+        ]);
+    }
+
+    // Update the password
+    $user = User::find(Auth::user()->id);
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return response()->json([
+        'status' => true,
+        'success' => 'Password updated successfully.',
+    ]);
 }
 
 public function updateUserProfile(Request $request){
@@ -317,6 +355,7 @@ public function deleteJob(Request $request){
 public function myJobApplications(){
     $jobApplications =JobApplication::where('user_id',Auth::user()->id)
                                     ->with('job','job.jobType','job.applicationCount')
+                                    ->orderBy('created_at','DESC')
                                     ->paginate(10);
     return view('frontend.account.job.my-job-applications',compact('jobApplications'));
 }
@@ -336,6 +375,37 @@ public function removeAppliedJobs(Request $request){
 
     JobApplication::find($request->id)->delete();
     session()->flash('success', 'Job Application Removed Successfully');
+    return response()->json([
+     'status' => true,
+     
+    ]);
+}
+
+
+public function savedJobs(){
+    $savedJobs =SavedJob::where('user_id',Auth::user()->id)
+    ->with('job','job.jobType','job.applicationCount')
+    ->orderBy('created_at','DESC')
+    ->paginate(10);
+
+return view('frontend.account.job.saved-jobs',compact('savedJobs'));
+}
+
+public function removeSavedJobs(Request $request){
+    $savedJob = SavedJob::where([
+        'id' => $request->id, 
+        'user_id' => Auth::user()->id
+        ])->first();
+
+        if($savedJob == null){
+            session()->flash('error', 'Job Application not Found!!');
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+    SavedJob::find($request->id)->delete();
+    session()->flash('success', ' Saved Job Application Removed Successfully');
     return response()->json([
      'status' => true,
      

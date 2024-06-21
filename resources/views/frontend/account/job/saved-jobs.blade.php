@@ -38,7 +38,7 @@
                         <div class="card-body card-form">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3 class="fs-4 mb-1"> Jobs Applied</h3>
+                                    <h3 class="fs-4 mb-1">Saved Jobs</h3>
                                 </div>
                                
                                 
@@ -48,39 +48,38 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th scope="col">Title</th>
-                                            <th scope="col">Applied Date</th>
                                             <th scope="col">Applicants</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-0">
-                                        @if($jobApplications->isNotEmpty())
-                                        @foreach($jobApplications as $jobApplication)
+                                        @if($savedJobs->isNotEmpty())
+                                        @foreach($savedJobs as $savedJob)
                                         <tr class="active">
                                             <td>
-                                                <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->location }}</div>
+                                                <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
+                                                <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->location }}</div>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($jobApplication->created_at)->format('d, M, Y') }}</td>
-                                            <td>{{ $jobApplication->job->applicationCount->count() }}</td>
+                                           
+                                            <td>{{ $savedJob->job->applicationCount->count() }}</td>
 
                                             <td>
-                                                @if($jobApplication->status == 1)
+                                                @if($savedJob->status == 1)
                                                 <div class="job-status text-capitalize">active</div>
                                                 @else
                                                 <div class="job-status text-capitalize">blocked</div>
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="action-dots float-end">
+                                                <div class="action-dots ">
                                                     <a href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route('jobDetail', $jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                       
-                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $jobApplication->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route('jobDetail', $savedJob->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                    
+                                                        <li><a class="dropdown-item" href="#" onclick="removeSavedJob({{ $savedJob->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -92,7 +91,7 @@
                                 </table>
                             </div>
                         </div>
-                        {{ $jobApplications->links() }}
+                        {{ $savedJobs->links() }}
                     </div> 
                 </div>
               
@@ -105,15 +104,15 @@
 
 @section('customJs')
 <script type="text/javascript">
-function deleteJob(id) {
-    if(confirm("Are You sure you want to remove  this job applied ?")){
+function removeSavedJob(id) {
+    if(confirm("Are You sure you want to remove  this saved job?")){
         $.ajax({
-            url: '{{ route('account.removeAppliedJobs') }}',
+            url: '{{ route('account.removeSavedJobs') }}',
             type: 'POST',
             data: {id: id},
             dataType: 'json',
             success: function(response){
-                window.location.href='{{ route("account.myJobApplications") }}';
+                window.location.href='{{ route("account.savedJobs") }}';
             }
         });
     }
