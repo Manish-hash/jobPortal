@@ -6,7 +6,7 @@
   --bs-white: #fff;
   --bs-gray: #6c757d;
   --bs-secondary: #6c757d;
-  --bs-success: #198754;
+  --bs-success: #718719;
   --bs-info: #0dcaf0;
   --bs-warning: #ffc107;
   --bs-danger: #dc3545;
@@ -9166,13 +9166,13 @@ h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
   font-size: inherit;
   font-family: inherit;
   display: inline-block;
-  color: #A8DF8E;
+  color: #ff6347;
 }
 h1 {
   font-size: 66px;
 }
 h1 span {
-  color: #A8DF8E;
+  color: #ff6347;
 }
 h2 {
   font-size: 30px;
@@ -9182,7 +9182,7 @@ h2 {
 h2:after {
   content: "";
   position: absolute;
-  background-color: #A8DF8E;
+  background-color: #ff6347;
   width: 70px;
   height: 4px;
   bottom: 0px;
@@ -9219,7 +9219,7 @@ p span, q span {
   font-size: inherit;
 }
 a {
-  color: #A8DF8E;
+  color: #ff6347;
 }
 a:hover {
   color: #000;
@@ -9247,8 +9247,8 @@ button, .btn {
 }
 button.btn-primary, .btn.btn-primary {
   color: #ffffff;
-  background: #A8DF8E;
-  border: 2px solid #A8DF8E;
+  background: #ff6347;
+  border: 2px solid #ff6347;
 }
 button.btn-primary:hover, button.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:focus {
   border: 2px solid #242021;
@@ -9260,13 +9260,13 @@ button.btn-secondary, .btn.btn-secondary {
   border: 2px solid #242021;
 }
 button.btn-secondary:hover, button.btn-secondary:focus, .btn.btn-secondary:hover, .btn.btn-secondary:focus {
-  border: 2px solid #A8DF8E;
-  background: #A8DF8E;
+  border: 2px solid #ff6347;
+  background: #ff6347;
   color: #ffffff;
 }
 button.btn-outline-primary, .btn.btn-outline-primary {
-  color: #A8DF8E;
-  border: 2px solid #A8DF8E;
+  color: #ff6347;
+  border: 2px solid #ff6347;
 }
 button.btn-outline-primary:hover, button.btn-outline-primary:focus, .btn.btn-outline-primary:hover, .btn.btn-outline-primary:focus {
   background: transparent;
@@ -9571,7 +9571,7 @@ label .req {
   font-size: 1em;
 }
 footer .nav-link {
-  color: #A8DF8E;
+  color: #ff6347;
 }
 .section-5 .card .thead, .section-5 .card tbody, .section-5 .card tfoot, .section-5 .card tr, .section-5 .card td, .section-5 .card th {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -9597,7 +9597,7 @@ footer .nav-link {
   padding: 10px 40px 10px 15px;
 }
 .section-5 .card .dropdown-menu .dropdown-item:hover {
-  background: #A8DF8E;
+  background: #ff6347;
   color: #ffffff;
 }
 .section-5 .card .dropdown-menu .dropdown-item:hover i {
@@ -9617,7 +9617,7 @@ footer .nav-link {
   color: #000;
 }
 .section-5 .account-nav ul li a:hover {
-  color: #A8DF8E;
+  color: #ff6347;
 }
 @font-face {
   font-family: 'fontello';
@@ -10026,4 +10026,57 @@ footer .nav-link {
 .saved-job a{
   background: #00D363 !important;
   color: #fff !important;
+}
+
+.dashboard{
+  height: 500px;
+  align-items: center;
+}
+
+:root {
+  --bs-dark-rgb: 33, 37, 41;
+}
+
+/* Sidebar styling for admin section */
+.admin-sidebar .account-nav {
+  background-color: rgb(var(--bs-dark-rgb)); /* Use CSS variable for background color */
+  color: #ffffff; /* White text */
+}
+
+.admin-sidebar .account-nav .list-group-item {
+  background-color: rgb(var(--bs-dark-rgb)); /* Use CSS variable for background color */
+  border: none; /* Remove default borders */
+}
+
+.admin-sidebar .account-nav .list-group-item a {
+  color: #ffffff; /* White text for links */
+  text-decoration: none;
+}
+
+.admin-sidebar .account-nav .list-group-item a:hover {
+  text-decoration: underline; /* Underline on hover for links */
+}
+
+/* General styling */
+.admin-sidebar .breadcrumb {
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.admin-sidebar .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* General styling for admin section */
+.admin-section .section-5 {
+  background-color: #f8f9fa; /* Light background */
+}
+
+.admin-section .container {
+  max-width: 1200px;
+}
+
+.admin-sidebar .list-group-item.active {
+  background-color: #495057; /* Different background for active item */
+  font-weight: bold; /* Make the text bold */
 }
